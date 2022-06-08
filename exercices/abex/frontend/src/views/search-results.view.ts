@@ -1,8 +1,12 @@
+import { SearchService } from '../services/search.service';
 
 interface searchResultsData {
     results: unknown[]
 }
 
+/**
+ * You can also get the data from the service !
+ */
 const searchResultsView = (datas: searchResultsData) => {
     if (!datas.results) {
         return 'redirecting ...';
@@ -15,13 +19,13 @@ const searchResultsView = (datas: searchResultsData) => {
                     <h2 class="my-2 text-xl">${_source.first_name} ${_source.last_name}</h2>
                     <div class="flex flex-row justify-between w-full">
                         <div class="flex justify-between items-start flex-col w-1/2">
-                            <h3 class="my-2 text-lg">Spécialités</h3>
+                            <h3 id="spec-header" class="my-2 text-lg">Spécialités</h3>
                             <div>
-                                ${_source.specialties.map((s: any) => `<span class="bg-green-300">${s.label}</span>`).join(' ')}
+                                ${_source.specialties.map((s: any) => `<span class="bg-green-300">${SearchService.lang === 'fr' ? s.label : s.label_nl}`)}
                             </div>
                         </div>
                         <div class="flex flex-col  items-end w-1/2">
-                            <h3 class="my-2 text-lg">Contact</h3>
+                            <h3 id="contact-header" class="my-2 text-lg"></h3>
                             <div>
                                 <p> ${_source.email} </p>
                                 <p> ${_source.cellphone} </p>

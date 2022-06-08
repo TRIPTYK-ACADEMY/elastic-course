@@ -1,6 +1,17 @@
 import { render } from '../renderer';
 import { SearchService } from '../services/search.service';
 
+function switchLang(lang: 'fr' | 'nl') {
+    const subscribeFunction = () =>  {
+        SearchService.lang = lang;
+        /**
+         * On doit arrêter d'écouter l'évènement, sinon ils vont s'accumuler
+         */
+        render('/');
+    };
+    return subscribeFunction;
+}
+
 const indexController = async ()=>{
     const bar = document.querySelector('#search-bar') as HTMLFormElement;
     const frBtn = document.querySelector('#fr-btn') as HTMLButtonElement;
@@ -13,14 +24,8 @@ const indexController = async ()=>{
         searchBtn.textContent = lang === 'fr' ? 'Rechercher' : 'Zoeken';
     };
 
-    frBtn.addEventListener('click', () => {
-        SearchService.lang = 'fr';
-        loadTranslation('fr');
-    });
-    nlBtn.addEventListener('click', () => {
-        SearchService.lang = 'nl';
-        loadTranslation('nl');
-    });
+    frBtn.addEventListener('click', switchLang('fr'));
+    nlBtn.addEventListener('click', switchLang('nl'));
 
     loadTranslation(SearchService.lang);
 
