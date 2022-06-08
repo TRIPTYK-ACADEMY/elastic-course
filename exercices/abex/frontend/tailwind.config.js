@@ -1,12 +1,8 @@
+// eslint-disable-next-line no-undef
 module.exports = {
-  mode: 'jit',
-  content: ['./*.html'],
-  darkMode: false, // or 'media' or 'class'
-  theme: {
-    extend: {},
-  },
-  variants: {
-    extend: {},
-  },
-  plugins: [],
-}
+    content: ['src/**/*.ts','src/*.ts','*.html'],
+    theme: {
+        extend: {},
+    },
+    plugins: [],
+};

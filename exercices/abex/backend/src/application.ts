@@ -1,3 +1,4 @@
+import cors from "cors";
 import express from "express";
 import { readFile } from "fs/promises";
 import { router } from "./app.router.js";
@@ -7,6 +8,7 @@ import { DatabaseService } from "./services/database.service.js";
 export async function init() {
   const app = express();
 
+  app.use(cors());
 
   await DatabaseService.init();
 
