@@ -1,33 +1,33 @@
-import { Request, Response } from "express";
-import { DatabaseService } from "../services/database.service.js";
+import type { Request, Response } from 'express';
+import { DatabaseService } from '../services/database.service.js';
 
 export class SearchController {
-  public static async search(req: Request, res: Response) {
+  public static async search (req: Request, res: Response) {
     const lang = (req.query.lang as 'fr' | 'nl' | undefined) ?? 'fr';
     const q = req.query.q as string;
 
-    const specFields = lang === 'fr' ? ["specialties.label"]: ["specialties.label_nl"];
-    const memberFields = lang === 'fr' ? ["first_name", "last_name", "diploma"]: ["first_name", "last_name", "diploma_nl"];
+    const specFields = lang === 'fr' ? ['specialties.label'] : ['specialties.label_nl'];
+    const memberFields = lang === 'fr' ? ['first_name', 'last_name', 'diploma'] : ['first_name', 'last_name', 'diploma_nl'];
 
     if (!q) {
       res.status(400);
       res.json({
-        "message": "Please enter a q"
+        message: 'Please enter a q',
       });
       return;
     }
 
     const search = await DatabaseService.client?.search({
-      index: "abex",
+      index: 'abex',
       query: {
         bool: {
           should: [
             {
               nested: {
-                path: "specialties",
+                path: 'specialties',
                 query: {
                   multi_match: {
-                    query:q,
+                    query: q,
                     fields: specFields,
                   },
                 },
@@ -36,7 +36,7 @@ export class SearchController {
             {
               multi_match: {
                 query: q,
-                fields:memberFields,
+                fields: memberFields,
               },
             },
           ],

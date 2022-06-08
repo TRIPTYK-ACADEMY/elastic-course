@@ -9,13 +9,14 @@
   </head>
   <body>
     <div>
-      <nav class="h-20 w-full bg-blue-500 flex items-center justify-center">
-        <a href="/">ABEX</a>
+      <nav class="h-20 w-full bg-blue-500 flex items-center justify-between px-6">
+        <a href="/" id="home-page">ABEX</a>
+        <div class="flex justify-between w-20">
+          <button id="fr-btn" class="p-2 border-white border hover:text-white" type="button">FR</button>
+          <button id="nl-btn" class="p-2 border-white border hover:text-white"  type="button">NL</button>
+        </div>
       </nav>
       <div id="app"></div>
-      <footer class="h-20 w-full bg-blue-500 flex items-center justify-center">
-        &copy; ABEX
-      </footer>
     </div>
   </body>
 </html>

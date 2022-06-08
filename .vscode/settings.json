@@ -26,7 +26,8 @@
   },
   "eslint.format.enable": true,
   "eslint.workingDirectories": [
-    "."
+    "exercices/**",
+    "examples/**"
   ],
   "tailwindCSS.emmetCompletions": true,
   "editor.minimap.enabled": false,

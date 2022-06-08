@@ -1,47 +1,47 @@
-import { parse } from "csv-parse/sync";
-import { readFile } from "fs/promises";
+import { parse } from 'csv-parse/sync';
+import { readFile } from 'fs/promises';
 
 export interface MembersMapping {
-  code: string;
-  first_name: string;
-  last_name: string;
-  diploma: string;
-  diploma_nl: string;
-  profession: string;
-  profession_nl: string;
-  email: string;
-  website: string;
-  phone: string;
-  cellphone: string;
-  lang: string;
+  code: string,
+  first_name: string,
+  last_name: string,
+  diploma: string,
+  diploma_nl: string,
+  profession: string,
+  profession_nl: string,
+  email: string,
+  website: string,
+  phone: string,
+  cellphone: string,
+  lang: string,
   address: {
-    street: string;
-    town: string;
-    zip: string;
-    number: string;
-  };
+    street: string,
+    town: string,
+    zip: string,
+    number: string,
+  },
   specialties: {
-    code: string;
-    label: string;
-    label_nl: string;
-  }[];
+    code: string,
+    label: string,
+    label_nl: string,
+  }[],
 }
 
-export async function importCSV(): Promise<MembersMapping[]> {
-  const members = await readFile("data/members.csv");
-  const specialities = await readFile("data/specialities.csv");
+export async function importCSV (): Promise<MembersMapping[]> {
+  const members = await readFile('data/members.csv');
+  const specialities = await readFile('data/specialities.csv');
 
   const membersParsed = parse(members, {
-    delimiter: ";",
+    delimiter: ';',
     columns: true,
   });
   const specialitiesParsed = parse(specialities, {
-    delimiter: ";",
+    delimiter: ';',
     columns: true,
   });
 
   return membersParsed.map((member: any) => {
-    const specialties = member.specialites.split("|");
+    const specialties = member.specialites.split('|');
 
     return {
       code: member.code,
@@ -56,24 +56,24 @@ export async function importCSV(): Promise<MembersMapping[]> {
       lang: member.langue,
       address: {
         street: member.addresse_rue,
-        number: member.addresse_numero,
-        town: member.addresse_ville,
-        zip: member.addresse_code_postal,
+        number: member.adresse_numero,
+        town: member.adresse_ville,
+        zip: member.adresse_code_postal,
       },
       specialties: specialties.map((sid: string) => {
-        const spec  = specialitiesParsed.find(
-          ({ code }: { code: string }) => code === sid
+        const spec = specialitiesParsed.find(
+          ({ code }: { code: string }) => code === sid,
         );
 
-        if (!spec) { 
-            return {};
+        if (!spec) {
+          return {};
         }
-        
+
         return {
-            code : spec.code,
-            label: spec.label,
-            label_nl : spec.label_neerlandais
-        }
+          code: spec.code,
+          label: spec.label,
+          label_nl: spec.label_neerlandais,
+        };
       }),
     } as MembersMapping;
   });
